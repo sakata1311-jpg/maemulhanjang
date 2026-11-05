@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maemulhanjang.com/sitemap.xml
+Sitemap: https://sakata1311-jpg.github.io/maemulhanjang/sitemap.xml
