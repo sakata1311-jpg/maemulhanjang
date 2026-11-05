@@ -27,10 +27,15 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Prepare public site
+        run: |
+          mkdir -p _site
+          cp index.html app.html pricing.html templates.html guide.html sitemap.xml robots.txt .nojekyll _site/
+          cp -r assets blog legal _site/
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: "_site"
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
