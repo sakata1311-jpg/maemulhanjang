@@ -1,0 +1,22 @@
+# --- private / never commit ---
+secrets/
+licenses/
+.env
+.env.*
+
+# --- local tooling ---
+_prototype/
+__pycache__/
+*.pyc
+node_modules/
+.vscode/
+.idea/
+
+# --- OS / logs ---
+.DS_Store
+Thumbs.db
+*.log
+
+# --- generated downloads / scratch ---
+*.zip
+!assets/**/*.zip

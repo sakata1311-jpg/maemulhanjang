@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>매물 스튜디오 | 매물한장</title>
+  <meta name="description" content="매물 정보를 입력하고 템플릿을 고르면 인스타 카드뉴스, A4 전단지, 홍보 문구가 1분 만에 완성됩니다.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://maemulhanjang.com/app.html">
+  <meta name="theme-color" content="#0e1a2b">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="매물 스튜디오 | 매물한장">
+  <meta property="og:description" content="매물 사진과 정보만 넣으면 전단지·카드뉴스·문구가 1분 만에.">
+  <meta property="og:image" content="https://maemulhanjang.com/assets/img/og.png">
+  <link rel="preload" href="assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css?v=20261105e">
+  <link rel="stylesheet" href="assets/css/app.css?v=20261105e">
+  <link rel="stylesheet" href="assets/css/slides.css?v=20261105e">
+</head>
+<body class="app-body" data-view="edit">
+  <header class="app-header">
+    <a class="brand" href="index.html" aria-label="매물한장 홈">
+      <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="32" height="32">
+      <span class="brand-word"><strong>매물한장</strong><span>STUDIO</span></span>
+    </a>
+    <span class="app-header-divider" aria-hidden="true"></span>
+    <span class="app-header-label">매물 스튜디오</span>
+    <div class="app-steps" aria-hidden="true"><b>01 정보</b><i></i><b>02 디자인</b><i></i><b>03 저장</b></div>
+    <div class="app-header-right">
+      <span class="save-state" id="saveState">자동 저장</span>
+      <button class="icon-btn" type="button" id="helpBtn" aria-label="사용법 열기" title="사용법">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.3 1-1.3 2"/><circle cx="12" cy="17" r=".8" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button class="pro-button" type="button" id="proBtn"><span class="pro-dot"></span><span id="proBtnLabel">Pro 업그레이드</span></button>
+    </div>
+  </header>
+
+  <div class="mobile-tabs">
+    <button type="button" data-view="edit" class="is-active">정보 입력</button>
+    <button type="button" data-view="preview">미리보기</button>
+  </div>
+
+  <main class="studio">
+    <!-- ==================================================================
+         LEFT PANEL
+         ================================================================== -->
+    <section class="panel" aria-label="매물 정보 입력">
+      <div class="panel-scroll">
+        <div class="panel-inner">
+          <div class="demo-banner" id="demoBanner">
+            <span>샘플 매물로 둘러보는 중입니다.</span>
+            <button type="button" id="startBlankBtn">내 매물 입력하기 →</button>
+          </div>
+
+          <div class="panel-head">
+            <h1>매물 정보</h1>
+            <p>사진과 정보를 넣으면 오른쪽 미리보기가 바로 바뀝니다. 입력한 내용은 내 브라우저에만 저장됩니다.</p>
+          </div>
+
+          <form id="listingForm" autocomplete="off" novalidate>
+            <!-- 01 기본 정보 -->
+            <section class="form-section" id="section-basic">
+              <div class="form-section-head"><span class="num">01</span><h2>기본 정보</h2><span class="hint">필수</span></div>
+
+              <div class="field">
+                <span class="field-label">거래 유형</span>
+                <div class="segmented" id="dealType" role="group" aria-label="거래 유형">
+                  <button type="button" data-deal="매매" class="is-active">매매</button>
+                  <button type="button" data-deal="전세">전세</button>
+                  <button type="button" data-deal="월세">월세</button>
+                  <button type="button" data-deal="임대">임대</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="propertyType">매물 유형</label>
+                <select class="select" id="propertyType" data-bind="propertyType">
+                  <option>아파트</option>
+                  <option>오피스텔</option>
+                  <option>빌라/연립</option>
+                  <option>단독/다가구</option>
+                  <option>상가</option>
+                  <option>사무실</option>
+                  <option>토지</option>
+                </select>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="address">주소</label>
+                  <input class="input" type="text" id="address" data-bind="address" placeholder="서울 마포구 성산동">
+                  <p class="field-hint" id="addressHint">동 단위까지만 입력하세요.</p>
+                </div>
+                <div class="field">
+                  <label for="complex">단지명 <span class="optional">선택</span></label>
+                  <input class="input" type="text" id="complex" data-bind="complex" placeholder="솔트리움">
+                  <p class="field-hint">아파트·오피스텔 이름</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 02 가격 -->
+            <section class="form-section" id="section-price">
+              <div class="form-section-head"><span class="num">02</span><h2>가격</h2><span class="hint">만원 단위</span></div>
+
+              <div class="field price-mode" data-mode="sale">
+                <label for="price">매매/전세 가격</label>
+                <div class="input-suffix">
+                  <input class="input" type="text" inputmode="numeric" id="price" data-bind="price" data-format="manwon" placeholder="85000">
+                  <span class="suffix">만원</span>
+                </div>
+                <p class="field-hint" id="pricePreview">예: 85000 → 8억 5,000만</p>
+              </div>
+
+              <div class="price-mode" data-mode="rent" hidden>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="deposit">보증금</label>
+                    <div class="input-suffix">
+                      <input class="input" type="text" inputmode="numeric" id="deposit" data-bind="deposit" data-format="manwon" placeholder="1000">
+                      <span class="suffix">만원</span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="rent">월 임대료</label>
+                    <div class="input-suffix">
+                      <input class="input" type="text" inputmode="numeric" id="rent" data-bind="rent" data-format="manwon" placeholder="65">
+                      <span class="suffix">만원</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="maintenance">관리비 <span class="optional">선택</span></label>
+                <div class="input-suffix">
+                  <input class="input" type="text" inputmode="numeric" id="maintenance" data-bind="maintenance" data-format="manwon" placeholder="12">
+                  <span class="suffix">만원</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- 03 면적과 구조 -->
+            <section class="form-section" id="section-spec">
+              <div class="form-section-head"><span class="num">03</span><h2>면적과 구조</h2></div>
+
+              <div class="form-grid form-grid--3">
+                <div class="field">
+                  <label for="area">전용면적</label>
+                  <div class="input-suffix">
+                    <input class="input" type="text" inputmode="decimal" id="area" data-bind="area" placeholder="59">
+                    <span class="suffix">㎡</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="pyeong">평형</label>
+                  <div class="input-suffix">
+                    <input class="input" type="text" inputmode="decimal" id="pyeong" data-bind="pyeong" placeholder="24">
+                    <span class="suffix">평</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="direction">방향</label>
+                  <select class="select" id="direction" data-bind="direction">
+                    <option>남향</option>
+                    <option>남동향</option>
+                    <option>남서향</option>
+                    <option>동향</option>
+                    <option>서향</option>
+                    <option>북향</option>
+                    <option>기타</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid form-grid--3">
+                <div class="field">
+                  <label for="floor">해당 층</label>
+                  <input class="input" type="text" inputmode="numeric" id="floor" data-bind="floor" placeholder="3">
+                </div>
+                <div class="field">
+                  <label for="totalFloor">전체 층</label>
+                  <input class="input" type="text" inputmode="numeric" id="totalFloor" data-bind="totalFloor" placeholder="15">
+                </div>
+                <div class="field">
+                  <label for="moveIn">입주</label>
+                  <input class="input" type="text" id="moveIn" data-bind="moveIn" placeholder="즉시 입주">
+                </div>
+              </div>
+
+              <div class="form-grid form-grid--3">
+                <div class="field">
+                  <label for="rooms">방</label>
+                  <input class="input" type="text" inputmode="numeric" id="rooms" data-bind="rooms" placeholder="2">
+                </div>
+                <div class="field">
+                  <label for="baths">욕실</label>
+                  <input class="input" type="text" inputmode="numeric" id="baths" data-bind="baths" placeholder="1">
+                </div>
+                <div class="field">
+                  <label for="builtYear">준공연도</label>
+                  <input class="input" type="text" inputmode="numeric" id="builtYear" data-bind="builtYear" placeholder="2018">
+                </div>
+              </div>
+            </section>
+
+            <!-- 04 사진 -->
+            <section class="form-section" id="section-photos">
+              <div class="form-section-head"><span class="num">04</span><h2>사진</h2><span class="hint" id="photoCount">0 / 5</span></div>
+              <label class="photo-drop" id="photoDrop">
+                <input type="file" id="photoInput" accept="image/*" multiple>
+                <span class="drop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="m4 17 5.2-5.2a2 2 0 0 1 2.8 0L20 20"/></svg></span>
+                <strong>사진을 끌어다 놓거나 클릭하세요</strong>
+                <span>JPG · PNG · 최대 5장 · 첫 번째 사진이 표지</span>
+              </label>
+              <div class="photo-grid" id="photoGrid"></div>
+              <p class="photo-empty-note" id="photoNote">사진을 추가하면 표지와 전단지가 훨씬 좋아집니다. 모든 사진은 브라우저에서만 처리됩니다.</p>
+            </section>
+
+            <!-- 05 강조 포인트 -->
+            <section class="form-section" id="section-features">
+              <div class="form-section-head"><span class="num">05</span><h2>강조 포인트</h2><span class="hint" id="featureCount">최대 6개</span></div>
+              <div class="chip-list" id="featureChips"></div>
+              <div class="field" style="margin-top:14px;margin-bottom:0">
+                <label for="featureText">추가 설명 <span class="optional">선택</span></label>
+                <textarea class="textarea" id="featureText" data-bind="featureText" rows="3" placeholder="예: 거실과 주방이 마주 보는 구조로 환기가 잘 됩니다. 수납공간이 많습니다."></textarea>
+              </div>
+            </section>
+
+            <!-- 06 중개사 정보 -->
+            <section class="form-section" id="section-brand">
+              <div class="form-section-head"><span class="num">06</span><h2>중개사 정보</h2><span class="hint">모든 출력물에 자동 표기</span></div>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="office">사무소명</label>
+                  <input class="input" type="text" id="office" data-bind="brand.office" placeholder="한빛공인중개사사무소">
+                </div>
+                <div class="field">
+                  <label for="agentName">대표자</label>
+                  <input class="input" type="text" id="agentName" data-bind="brand.name" placeholder="김민수">
+                </div>
+                <div class="field">
+                  <label for="regNo">등록번호</label>
+                  <input class="input" type="text" id="regNo" data-bind="brand.regNo" placeholder="12345-2026-0001">
+                </div>
+                <div class="field">
+                  <label for="phone">연락처</label>
+                  <input class="input" type="text" id="phone" data-bind="brand.phone" placeholder="010-1234-5678">
+                </div>
+              </div>
+              <div class="field">
+                <label for="brandAddress">사무소 주소 <span class="optional">선택</span></label>
+                <input class="input" type="text" id="brandAddress" data-bind="brand.address" placeholder="서울 마포구 성산로 12">
+              </div>
+              <div class="field">
+                <label for="link">QR 링크 <span class="optional">선택</span></label>
+                <input class="input" type="text" id="link" data-bind="brand.link" placeholder="https://blog.naver.com/... 또는 매물 링크">
+                <p class="field-hint">전단지·연락처 카드의 QR 코드에 연결됩니다. 비워두면 매물한장 홈으로 연결됩니다.</p>
+              </div>
+            </section>
+
+            <!-- 07 문구 -->
+            <section class="form-section" id="section-copy">
+              <div class="form-section-head"><span class="num">07</span><h2>홍보 문구</h2><span class="hint">자동 생성 · 수정 가능</span></div>
+              <div class="copy-head">
+                <p class="field-hint" style="margin:0">매물 정보에 맞춰 문구를 만듭니다.</p>
+                <button class="btn btn-dark" type="button" id="regenerateCopy">문구 자동 완성</button>
+              </div>
+
+              <div class="copy-field">
+                <label class="field-label" for="copyHeadline">표지 제목 <span class="optional">줄바꿈 가능</span></label>
+                <textarea class="textarea" id="copyHeadline" data-bind="copy.headline" data-copy-field="headline" rows="2" placeholder="채광 좋은 24평,&#10;남향 3층 매매"></textarea>
+              </div>
+              <div class="copy-field">
+                <label class="field-label" for="copySubhead">서브 문구</label>
+                <input class="input" type="text" id="copySubhead" data-bind="copy.subhead" data-copy-field="subhead">
+              </div>
+              <div class="copy-field">
+                <label class="field-label" for="copyCaption">인스타 캡션</label>
+                <textarea class="textarea is-caption" id="copyCaption" data-bind="copy.caption" data-copy-field="caption"></textarea>
+                <button class="copy-btn" type="button" data-copy-target="copyCaption">복사</button>
+              </div>
+              <div class="copy-field">
+                <label class="field-label" for="copySms">문자 문구</label>
+                <textarea class="textarea" id="copySms" data-bind="copy.sms" data-copy-field="sms"></textarea>
+                <button class="copy-btn" type="button" data-copy-target="copySms">복사</button>
+              </div>
+              <div class="copy-field">
+                <label class="field-label" for="copyBlog">블로그 초안</label>
+                <textarea class="textarea is-blog" id="copyBlog" data-bind="copy.blog" data-copy-field="blog"></textarea>
+                <button class="copy-btn" type="button" data-copy-target="copyBlog">복사</button>
+              </div>
+            </section>
+          </form>
+
+          <div class="upsell-card" id="upsellCard">
+            <div class="upsell-top"><h3>Pro로 더 완성도 있게</h3><span class="badge badge--pro">PRO</span></div>
+            <p>전체 템플릿 6종 · A4 300dpi · 워터마크 제거 · 전체 ZIP 저장. 한 번 결제로 평생 사용합니다.</p>
+            <button class="btn btn-primary" type="button" id="upsellBtn">Pro 라이선스 보기 <span class="arrow">→</span></button>
+          </div>
+
+          <div class="panel-foot">
+            입력한 매물 정보와 사진은 서버로 전송되지 않고 이 브라우저에만 저장됩니다. 브라우저 데이터를 삭제하면 작업 내용도 사라지므로, 완성한 이미지는 꼭 저장해 두세요.
+            <br><a href="legal/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a> · <a href="guide.html" target="_blank" rel="noopener">사용 가이드</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         RIGHT PANEL
+         ================================================================== -->
+    <section class="preview-pane" aria-label="미리보기">
+      <div class="preview-top">
+        <div class="template-strip" id="templateStrip" role="group" aria-label="템플릿 선택"></div>
+
+        <div class="accent-row" id="accentRow">
+          <span class="accent-label">포인트 컬러</span>
+          <div class="accent-swatches" id="accentSwatches" role="group" aria-label="포인트 컬러"></div>
+          <label class="accent-custom">직접 선택<input type="color" id="accentColor" value="#d9552a" aria-label="직접 색상 선택"></label>
+        </div>
+
+        <div class="preview-toolbar">
+          <div class="preview-tabs" role="tablist" aria-label="미리보기 종류">
+            <button class="preview-tab is-active" type="button" data-preview="cover" role="tab" aria-selected="true">표지</button>
+            <button class="preview-tab" type="button" data-preview="detail" role="tab" aria-selected="false">정보</button>
+            <button class="preview-tab" type="button" data-preview="contact" role="tab" aria-selected="false">연락처</button>
+            <button class="preview-tab" type="button" data-preview="a4" role="tab" aria-selected="false">A4 <span class="tab-pro">PRO</span></button>
+            <button class="preview-tab" type="button" data-preview="square" role="tab" aria-selected="false">1:1 <span class="tab-pro">PRO</span></button>
+            <button class="preview-tab" type="button" data-preview="story" role="tab" aria-selected="false">스토리 <span class="tab-pro">PRO</span></button>
+          </div>
+          <div class="preview-actions">
+            <button class="btn btn-dark" type="button" id="exportPng">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg>
+              <span class="label">이미지 저장</span>
+            </button>
+            <button class="btn btn-ghost" type="button" id="exportZip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v13H4z"/><path d="M4 7V4h16v3"/><path d="M10 11h4"/></svg>
+              <span class="label">전체 ZIP</span>
+            </button>
+            <button class="btn btn-ghost" type="button" id="printBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 8V3h10v5"/><rect x="4" y="8" width="16" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+              <span class="label">인쇄 / PDF</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-stage" id="previewStage">
+        <div class="preview-frame" id="previewFrame">
+          <div id="slideMount"></div>
+        </div>
+      </div>
+
+      <div class="preview-meta">
+        <span id="previewMeta">1080 × 1350px · PNG</span>
+        <span class="lock-note is-hidden" id="lockNote">Pro 라이선스에서 저장할 수 있습니다.</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hidden full-size export mount -->
+  <div id="exportMount" aria-hidden="true" style="position:fixed;left:-20000px;top:0;z-index:-1;pointer-events:none"></div>
+
+  <!-- Export overlay -->
+  <div class="export-overlay" id="exportOverlay" role="dialog" aria-modal="true" aria-labelledby="exportText">
+    <div class="export-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <h3>이미지를 만들고 있습니다</h3>
+      <p id="exportText">잠시만 기다려 주세요. 사진 수에 따라 몇 초 걸릴 수 있습니다.</p>
+      <p class="micro" style="margin-top:8px">저장 중에는 다른 탭으로 전환하지 마세요. 완료가 지연될 수 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- Pro modal -->
+  <div class="modal" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proTitle">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-close-modal aria-label="닫기">×</button>
+      <p class="modal-kicker">Pro 평생 라이선스</p>
+      <h2 id="proTitle">한 번 결제로,<br>계속 쓰는 매물 도구.</h2>
+      <p class="modal-lead">월 구독 없이 평생 사용합니다. 라이선스 키를 입력하면 이 브라우저에서 즉시 활성화됩니다.</p>
+      <div class="modal-price"><strong><span data-price="launch">29,000</span>원</strong><span>1회 결제 · 정가 <s data-price="regular">49,000</s>원</span></div>
+      <ul class="modal-features">
+        <li>전체 템플릿 6종</li>
+        <li>A4 전단지 300dpi</li>
+        <li>워터마크 제거</li>
+        <li>1:1 · 스토리 규격</li>
+        <li>사진 5장</li>
+        <li>전체 ZIP 저장</li>
+        <li>브랜드 킷 저장</li>
+        <li>평생 사용</li>
+      </ul>
+      <a class="btn btn-primary btn-block" href="pricing.html#buy" id="buyBtn">Pro 라이선스 구매하기 <span class="arrow">→</span></a>
+
+      <div class="license-box">
+        <h3>이미 라이선스 키가 있나요?</h3>
+        <p>구매 후 받은 키를 입력하면 바로 Pro로 전환됩니다.</p>
+        <div class="license-input-row">
+          <input class="input" type="text" id="licenseInput" placeholder="MH1...." spellcheck="false" autocomplete="off">
+          <button class="btn btn-dark" type="button" id="activateBtn">활성화</button>
+        </div>
+        <p class="license-status" id="licenseStatus"></p>
+        <div class="license-current" id="licenseCurrent" hidden>
+          <span class="dot"></span>
+          <span id="licenseCurrentText"></span>
+        </div>
+        <button class="btn btn-ghost btn-block" type="button" id="deactivateBtn" hidden style="margin-top:8px">라이선스 해제</button>
+        <button class="btn btn-ghost btn-block" type="button" id="demoBtn" hidden style="margin-top:8px">데모 Pro로 체험하기 (로컬 전용)</button>
+      </div>
+      <p class="modal-note">결제·라이선스 문의: <a href="mailto:hello@maemulhanjang.com" data-contact-email data-contact-text>hello@maemulhanjang.com</a></p>
+    </div>
+  </div>
+
+  <!-- Help modal -->
+  <div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-card modal-card--wide">
+      <button class="modal-close" type="button" data-close-modal aria-label="닫기">×</button>
+      <p class="modal-kicker">3분 가이드</p>
+      <h2 id="helpTitle">이렇게 사용하세요.</h2>
+      <div class="help-steps">
+        <div class="help-step"><span class="n">1</span><div><h3>매물 정보를 입력합니다</h3><p>거래 유형, 가격, 면적, 층, 주소를 넣으세요. 주소는 동 단위까지만 노출하는 것을 권장합니다.</p></div></div>
+        <div class="help-step"><span class="n">2</span><div><h3>사진과 템플릿을 고릅니다</h3><p>첫 번째 사진이 표지가 됩니다. 오른쪽 위에서 템플릿과 포인트 컬러를 바꿔 보세요.</p></div></div>
+        <div class="help-step"><span class="n">3</span><div><h3>저장하고 바로 올립니다</h3><p>PNG로 저장해 인스타에 올리거나, A4로 인쇄해 사무소 창문에 붙이세요. 문구는 복사해서 문자·블로그에 사용합니다.</p></div></div>
+      </div>
+      <div class="help-shortcuts">
+        <strong>단축키</strong> · <kbd>Ctrl</kbd> + <kbd>S</kbd> PNG 저장 · <kbd>Ctrl</kbd> + <kbd>Enter</kbd> 문구 자동 완성 · <kbd>Esc</kbd> 창 닫기<br>
+        <strong>인쇄 팁</strong> · A4 인쇄 시 ‘배경 그래픽’ 옵션을 켜고 여백 없이 출력하세요.
+      </div>
+      <p class="modal-note">도움이 필요하면 <a href="mailto:hello@maemulhanjang.com" data-contact-email data-contact-text>hello@maemulhanjang.com</a>으로 문의해 주세요.</p>
+    </div>
+  </div>
+
+  <noscript>
+    <div style="padding:40px;text-align:center;font-family:sans-serif">매물한장은 자바스크립트가 필요합니다. 브라우저에서 JavaScript를 켜 주세요.</div>
+  </noscript>
+
+  <script src="assets/js/config.js?v=20261105e"></script>
+  <script src="assets/js/common.js?v=20261105e"></script>
+  <script src="assets/js/license-public.js?v=20261105e"></script>
+  <script src="assets/js/license.js?v=20261105e"></script>
+  <script src="assets/js/copy.js?v=20261105e"></script>
+  <script src="assets/js/vendor/qrcode.js"></script>
+  <script src="assets/js/templates.js?v=20261105e"></script>
+  <script src="assets/js/vendor/html-to-image.js"></script>
+  <script src="assets/js/vendor/jszip.min.js"></script>
+  <script src="assets/js/studio.js?v=20261105e"></script>
+</body>
+</html>
