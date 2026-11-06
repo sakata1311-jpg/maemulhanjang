@@ -74,7 +74,7 @@ def footer() -> str:
             <img class="brand-mark" src="../assets/img/logo-mark.svg" alt="" width="38" height="38">
             <span class="brand-word"><strong style="color:var(--paper)">매물한장</strong><span>MAEMUL HANJANG</span></span>
           </a>
-          <p>공인중개사의 매물 홍보를 1분으로 줄이는 도구. 브라우저에서만 동작하고, 매물 정보는 외부로 전송되지 않습니다.</p>
+          <p>공인중개사의 매물 홍보 시간을 줄이는 도구. Windows 프로그램과 브라우저에서 동작하고, 매물 정보는 외부로 전송되지 않습니다.</p>
         </div>
         <div class="footer-col"><h4>제품</h4><a href="../app.html">매물 만들기</a><a href="../templates.html">템플릿</a><a href="../pricing.html">요금</a><a href="../guide.html">사용법</a></div>
         <div class="footer-col"><h4>자료</h4><a href="../blog/index.html">블로그</a><a href="../blog/realtor-instagram-cardnews.html">인스타 카드뉴스 가이드</a><a href="../blog/flyer-required-disclosures.html">광고 표기 체크리스트</a></div>
@@ -129,7 +129,7 @@ def cta_block() -> str:
     return f"""      <div class="post-cta">
         <div>
           <h2>오늘 매물, 오늘 홍보하세요.</h2>
-          <p>매물 정보와 사진만 넣으면 카드뉴스·A4 전단지·문구가 1분 만에 완성됩니다.</p>
+          <p>매물 정보와 사진만 넣으면 카드뉴스·A4 전단지·문구를 만들 수 있습니다.</p>
         </div>
         <a class="btn btn-primary" href="../app.html">무료로 만들어보기 <span class="arrow">→</span></a>
       </div>"""
@@ -181,7 +181,7 @@ def build_index() -> str:
     </section>
     <section class="cta-band">
       <div class="wrap cta-inner">
-        <div><h2>읽는 것에서 끝내지 말고,<br>오늘 바로 만들어보세요.</h2><p>샘플 매물로 1분 만에 결과물을 확인할 수 있습니다.</p></div>
+        <div><h2>읽는 것에서 끝내지 말고,<br>오늘 바로 만들어보세요.</h2><p>샘플 매물로 결과물을 확인할 수 있습니다.</p></div>
         <div class="cta-actions"><a class="btn btn-primary btn-lg" href="../app.html">무료로 만들기 <span class="arrow">→</span></a><a class="btn btn-outline-light btn-lg" href="../pricing.html">요금 보기</a></div>
       </div>
     </section>

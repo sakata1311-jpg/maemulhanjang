@@ -65,7 +65,7 @@ def main() -> None:
     d.text((50, 267), "전단지·카드뉴스·문구가 완성", font=font(11), fill=MUTED)
 
     # tags
-    tags = ["A4 300dpi", "템플릿 6종"]
+    tags = ["Windows 프로그램", "A4 300dpi"]
     x = 50
     for label in tags:
         w = d.textlength(label, font=font(10, True))
@@ -97,7 +97,7 @@ def main() -> None:
     # subtle bottom line
     d = ImageDraw.Draw(img)
     d.line((50, 418, 602, 418), fill=(44, 60, 82), width=1)
-    d.text((50, 426), "설치·회원가입 없이 브라우저에서 사용", font=font(9), fill=MUTED)
+    d.text((50, 426), "Windows 프로그램 + 웹앱 · 인터넷 없이 사용", font=font(9), fill=MUTED)
 
     img.save(OUT, quality=95, optimize=True)
     print("saved", OUT)

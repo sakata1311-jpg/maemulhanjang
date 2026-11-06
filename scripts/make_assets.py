@@ -123,10 +123,10 @@ def make_og() -> None:
 
     # subcopy
     d.text((64, 382), "인스타 카드뉴스 · A4 전단지 · 홍보 문구를", font=font(20), fill=MUTED)
-    d.text((64, 414), "매물 정보 한 번으로 1분 만에.", font=font(20), fill=MUTED)
+    d.text((64, 414), "매물 정보 하나로 한 번에.", font=font(20), fill=MUTED)
 
     # chips
-    chips = ["무료로 시작", "설치 0초", "A4 300dpi"]
+    chips = ["무료로 시작", "Windows 프로그램", "A4 300dpi"]
     x = 64
     for text in chips:
         w = d.textlength(text, font=font(14, True))
@@ -155,7 +155,7 @@ def make_og() -> None:
     sticker = Image.new("RGBA", (210, 70), (0, 0, 0, 0))
     sd = ImageDraw.Draw(sticker)
     sd.rounded_rectangle((0, 0, 209, 69), radius=14, fill=WHITE)
-    sd.text((18, 12), "1분 완성", font=font(18, True), fill=NAVY)
+    sd.text((18, 12), "3장 자동 구성", font=font(18, True), fill=NAVY)
     sd.text((18, 38), "표지 · 정보 · 전단지", font=font(11, True), fill=MUTED)
     img.alpha_composite(sticker, (760, 500))
 
