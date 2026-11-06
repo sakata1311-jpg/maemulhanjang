@@ -469,7 +469,7 @@
       const active = state.listing.template === key;
       const img = TEMPLATE_IMAGES[key] || TEMPLATE_IMAGES.city;
       return `<button class="template-mini${active ? " is-active" : ""}" type="button" data-template="${key}" aria-pressed="${active}" title="${C.esc(tpl.name)} · ${C.esc(tpl.desc)}">
-        <span class="mini-thumb" style="background-image:url('${img}')">${tpl.pro && !isPro() ? '<span class="mini-lock">PRO</span>' : ""}</span>
+        <span class="mini-thumb" style="background-image:url('${img}')">${tpl.pro && !isPro() ? '<span class="mini-lock">유료</span>' : ""}</span>
         <span class="mini-name">${C.esc(tpl.name)}</span>
       </button>`;
     }).join("");
@@ -521,7 +521,7 @@
       note.textContent = photos.length
         ? isPro()
           ? "첫 번째 사진이 표지가 됩니다. 최대 5장까지 사용할 수 있습니다."
-          : "첫 번째 사진이 표지가 됩니다. Free는 3장까지, Pro는 5장까지 사용할 수 있습니다."
+          : "첫 번째 사진이 표지가 됩니다. 무료는 3장까지, 유료 이용권은 5장까지 사용할 수 있습니다."
         : "사진을 추가하면 표지와 전단지가 훨씬 좋아집니다. 모든 사진은 브라우저에서만 처리됩니다.";
     }
     updateCounts();
@@ -542,7 +542,7 @@
     const lockNote = $("#lockNote");
     if (lockNote) lockNote.classList.toggle("is-hidden", !locked);
     const pngLabel = $("#exportPng .label");
-    if (pngLabel) pngLabel.textContent = locked ? "Pro로 저장" : "이미지 저장";
+    if (pngLabel) pngLabel.textContent = locked ? "이용권으로 저장" : "이미지 저장";
   }
 
   function scalePreview() {
@@ -618,7 +618,11 @@
     const proBtn = $("#proBtn");
     const proBtnLabel = $("#proBtnLabel");
     if (proBtn) proBtn.classList.toggle("is-pro", pro);
-    if (proBtnLabel) proBtnLabel.textContent = pro ? "PRO 사용 중" : "Pro 업그레이드";
+    if (proBtnLabel) {
+      proBtnLabel.textContent = pro
+        ? `${L.planName(L.getState().plan)} 사용 중`
+        : "이용권 구매";
+    }
     const upsell = $("#upsellCard");
     if (upsell) upsell.classList.toggle("is-hidden", pro);
     const demoBtn = $("#demoBtn");
@@ -632,8 +636,8 @@
       if (pro) {
         current.hidden = false;
         currentText.textContent = info.demo
-          ? "데모 Pro · 로컬에서만 사용할 수 있습니다."
-          : `${String(info.plan || "pro").toUpperCase()} 라이선스 · ${info.email || "이메일 없음"}${info.exp ? " · " + info.exp + "까지" : " · 평생"}`;
+          ? "데모 이용권 · 로컬에서만 사용할 수 있습니다."
+          : `${L.planName(info.plan)} 이용권 · ${info.email || "이메일 없음"}${info.exp ? " · " + info.exp + "까지" : ""}`;
       } else {
         current.hidden = true;
       }
@@ -745,13 +749,13 @@
     const limit = isPro() ? 5 : 3;
     const current = state.listing.photos.length;
     if (current >= limit) {
-      if (!isPro()) openProModal("Free는 사진 3장까지 사용할 수 있습니다. Pro에서는 5장까지 추가할 수 있습니다.");
+      if (!isPro()) openProModal("무료는 사진 3장까지 사용할 수 있습니다. 유료 이용권에서는 5장까지 추가할 수 있습니다.");
       else toast("사진은 최대 5장까지 사용할 수 있습니다.", "error");
       return;
     }
     const allowed = Math.min(files.length, limit - current);
     if (files.length > allowed && !isPro()) {
-      openProModal("Free는 사진 3장까지 사용할 수 있습니다. Pro에서는 5장까지 추가할 수 있습니다.");
+      openProModal("무료는 사진 3장까지 사용할 수 있습니다. 유료 이용권에서는 5장까지 추가할 수 있습니다.");
     } else if (files.length > allowed) {
       toast("사진은 최대 5장까지 사용할 수 있습니다.", "error");
     }
@@ -803,13 +807,13 @@
 
   function exportPermission(type) {
     const tpl = T.TEMPLATES[state.listing.template] || T.TEMPLATES.city;
-    if (!isPro() && tpl.pro) return { ok: false, reason: "이 템플릿은 Pro에서 저장할 수 있습니다." };
-    if (!isPro() && PRO_TYPES.has(type)) return { ok: false, reason: "이 출력 규격은 Pro에서 저장할 수 있습니다." };
+    if (!isPro() && tpl.pro) return { ok: false, reason: "이 템플릿은 유료 이용권에서 저장할 수 있습니다." };
+    if (!isPro() && PRO_TYPES.has(type)) return { ok: false, reason: "이 출력 규격은 유료 이용권에서 저장할 수 있습니다." };
     return { ok: true };
   }
 
   function requirePro(reason) {
-    openProModal(reason || "Pro 라이선스에서 사용할 수 있습니다.");
+    openProModal(reason || "유료 이용권에서 사용할 수 있습니다.");
     track("pro_gate", { reason: reason || "" });
   }
 
@@ -893,7 +897,56 @@
     return new Blob([bytes], { type: mime ? mime[1] : "image/png" });
   }
 
-  function downloadBlob(blob, filename) {
+  function hasDesktopBridge() {
+    return Boolean(
+      window.pywebview &&
+        window.pywebview.api &&
+        typeof window.pywebview.api.save_file === "function"
+    );
+  }
+
+  function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error || new Error("파일 변환 실패"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function saveDataUrl(dataUrl, filename) {
+    if (hasDesktopBridge()) {
+      try {
+        const result = await window.pywebview.api.save_file(dataUrl, filename);
+        if (result && result.ok) {
+          toast("파일을 저장했습니다: " + result.path);
+          return true;
+        }
+      } catch (err) {
+        /* fall through to browser download */
+      }
+    }
+    const url = URL.createObjectURL(dataUrlToBlob(dataUrl));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 8000);
+    return true;
+  }
+
+  async function downloadBlob(blob, filename) {
+    if (hasDesktopBridge()) {
+      try {
+        const dataUrl = await blobToDataUrl(blob);
+        return await saveDataUrl(dataUrl, filename);
+      } catch (err) {
+        /* fall through to browser download */
+      }
+    }
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -903,10 +956,12 @@
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 8000);
+    return true;
   }
 
-  function downloadDataUrl(dataUrl, filename) {
-    downloadBlob(dataUrlToBlob(dataUrl), filename);
+  async function downloadDataUrl(dataUrl, filename) {
+    if (hasDesktopBridge()) return saveDataUrl(dataUrl, filename);
+    return downloadBlob(dataUrlToBlob(dataUrl), filename);
   }
 
   function exportBaseName() {
@@ -924,7 +979,7 @@
     try {
       const result = await renderImageData(target);
       const meta = typeMeta(target);
-      downloadDataUrl(result.data, `${exportBaseName()}_${meta.file}.${result.ext}`);
+      await downloadDataUrl(result.data, `${exportBaseName()}_${meta.file}.${result.ext}`);
       toast("이미지를 저장했습니다.");
       track("export_png", { type: target });
     } catch (err) {
@@ -938,7 +993,7 @@
 
   async function exportZip() {
     if (!isPro()) {
-      requirePro("전체 ZIP 저장은 Pro 라이선스에서 사용할 수 있습니다.");
+      requirePro("전체 ZIP 저장은 유료 이용권에서 사용할 수 있습니다.");
       return;
     }
     if (typeof JSZip === "undefined") {
@@ -981,7 +1036,7 @@
       zip.file("홍보문구.txt", text);
       showOverlay("ZIP 파일로 묶고 있습니다.");
       const blob = await zip.generateAsync({ type: "blob" });
-      downloadBlob(blob, `${exportBaseName()}_전체.zip`);
+      await downloadBlob(blob, `${exportBaseName()}_전체.zip`);
       toast("전체 파일을 ZIP으로 저장했습니다.");
       track("export_zip", { count: types.length });
     } catch (err) {
@@ -995,19 +1050,35 @@
 
   async function printA4() {
     if (!isPro()) {
-      requirePro("A4 전단지 인쇄는 Pro 라이선스에서 사용할 수 있습니다.");
+      requirePro("A4 전단지 인쇄는 유료 이용권에서 사용할 수 있습니다.");
       return;
     }
-    const win = window.open("", "_blank");
-    if (!win) {
-      toast("팝업이 차단되었습니다. 브라우저의 팝업 차단을 해제해 주세요.", "error");
-      return;
+    const desktop = hasDesktopBridge();
+    let win = null;
+    if (!desktop) {
+      win = window.open("", "_blank");
+      if (!win) {
+        toast("팝업이 차단되었습니다. 브라우저의 팝업 차단을 해제해 주세요.", "error");
+        return;
+      }
+      win.document.write("<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>매물한장 A4 전단지</title><style>@page{size:A4;margin:0}html,body{margin:0;padding:0}img{display:block;width:100%}</style></head><body><p style='font-family:sans-serif;padding:24px'>전단지를 준비하고 있습니다…</p></body></html>");
+      win.document.close();
     }
-    win.document.write("<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>매물한장 A4 전단지</title><style>@page{size:A4;margin:0}html,body{margin:0;padding:0}img{display:block;width:100%}</style></head><body><p style='font-family:sans-serif;padding:24px'>전단지를 준비하고 있습니다…</p></body></html>");
-    win.document.close();
     showOverlay("A4 전단지를 준비하고 있습니다.");
     try {
       const result = await renderImageData("a4");
+      const filename = `${exportBaseName()}_A4전단지.jpg`;
+      if (desktop) {
+        await saveDataUrl(result.data, filename);
+        try {
+          await window.pywebview.api.open_downloads();
+        } catch (err) {
+          /* ignore */
+        }
+        toast("A4 JPG를 다운로드 폴더에 저장했습니다. 파일을 열어 인쇄해 주세요.");
+        track("print_a4_desktop", {});
+        return;
+      }
       const blob = dataUrlToBlob(result.data);
       const url = URL.createObjectURL(blob);
       win.document.open();
@@ -1021,7 +1092,7 @@
     } catch (err) {
       console.error(err);
       try {
-        win.close();
+        if (win) win.close();
       } catch (e2) {
         /* ignore */
       }
@@ -1065,7 +1136,7 @@
     renderPreview();
     saveSoon();
     if (tpl.pro && !isPro()) {
-      toast("Pro 템플릿입니다. 미리보기는 가능하지만 저장에는 Pro 라이선스가 필요합니다.");
+      toast("유료 템플릿입니다. 미리보기는 가능하지만 저장에는 유료 이용권이 필요합니다.");
     }
     track("template_select", { template: key });
   }
@@ -1314,12 +1385,12 @@
         try {
           await L.activate(key);
           if (status) {
-            status.textContent = "Pro가 활성화되었습니다.";
+            status.textContent = "이용권이 활성화되었습니다.";
             status.classList.add("is-ok");
           }
           if (input) input.value = "";
           updateLicenseFromStore();
-          toast("Pro 라이선스가 활성화되었습니다.");
+          toast("이용권이 활성화되었습니다.");
           track("license_activate", {});
         } catch (err) {
           if (status) {
@@ -1340,11 +1411,11 @@
           await L.activate("DEMO");
           const status = $("#licenseStatus");
           if (status) {
-            status.textContent = "데모 Pro가 활성화되었습니다. 이 브라우저에서만 유지됩니다.";
+            status.textContent = "데모 이용권이 활성화되었습니다. 이 브라우저에서만 유지됩니다.";
             status.classList.add("is-ok");
           }
           updateLicenseFromStore();
-          toast("데모 Pro로 전환했습니다.");
+          toast("데모 이용권으로 전환했습니다.");
         } catch (err) {
           toast("데모 모드를 시작할 수 없습니다.", "error");
         }

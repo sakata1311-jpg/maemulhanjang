@@ -190,7 +190,7 @@
 
   function lockBadge(isPro, tpl) {
     if (isPro || !tpl.pro) return "";
-    return `<div class="s-lock">PRO 템플릿 · 미리보기</div>`;
+    return `<div class="s-lock">유료 템플릿 · 미리보기</div>`;
   }
 
   function contactCard(listing) {

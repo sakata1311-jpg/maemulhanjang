@@ -1221,18 +1221,22 @@ ol {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: 0.92fr 1.08fr;
-  gap: 22px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
   align-items: stretch;
-  max-width: 940px;
+  max-width: 1120px;
   margin-inline: auto;
+}
+
+.pricing-grid--three {
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .price-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 36px 34px;
+  padding: 30px 26px;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--white);
@@ -1284,7 +1288,7 @@ ol {
 .price-amount strong {
   flex: 0 0 auto;
   font-family: var(--font-serif);
-  font-size: clamp(38px, 4vw, 52px);
+  font-size: clamp(34px, 3.2vw, 44px);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -1313,9 +1317,9 @@ ol {
 
 .price-list {
   display: grid;
-  gap: 11px;
-  margin: 28px 0 32px;
-  font-size: 14px;
+  gap: 9px;
+  margin: 22px 0 24px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -1384,7 +1388,7 @@ ol {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  max-width: 940px;
+  max-width: 1120px;
   margin: 0 auto 22px;
   padding: 13px 20px;
   border: 1px dashed rgba(217, 85, 42, 0.45);

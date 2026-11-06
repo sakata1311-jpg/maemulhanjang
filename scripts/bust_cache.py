@@ -4,7 +4,7 @@ import pathlib
 import re
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-VERSION = "20261105f"
+VERSION = "20261107b"
 ASSETS = [
     "assets/css/site.css",
     "assets/css/app.css",
@@ -20,7 +20,7 @@ ASSETS = [
 
 changed = []
 for path in BASE.rglob("*.html"):
-    if any(part in {"_prototype", "secrets"} for part in path.parts):
+    if any(part in {"_prototype", "secrets", "build", "dist", ".git", "node_modules"} for part in path.parts):
         continue
     text = path.read_text(encoding="utf-8")
     original = text

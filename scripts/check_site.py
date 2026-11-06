@@ -9,7 +9,7 @@ from html.parser import HTMLParser
 from urllib.parse import unquote, urlparse
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-SKIP_DIRS = {"_prototype", "secrets", ".git", "node_modules"}
+SKIP_DIRS = {"_prototype", "secrets", ".git", "node_modules", "build", "dist"}
 HTML_FILES = [
     p
     for p in BASE.rglob("*.html")

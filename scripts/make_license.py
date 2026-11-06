@@ -2,8 +2,8 @@
 """Issue an offline license key for a customer.
 
 Usage:
-  python scripts/make_license.py --email buyer@example.com --name "홍길동" --plan pro
-  python scripts/make_license.py --email buyer@example.com --days 365 --out key.txt
+  python scripts/make_license.py --email buyer@example.com --name "홍길동" --plan deluxe
+  python scripts/make_license.py --email buyer@example.com --plan premium --out key.txt
 
 Keys are signed with secrets/license_private.pem and verified in the browser
 with the embedded public key. No server is required.
@@ -39,8 +39,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Issue a 매물한장 license key")
     parser.add_argument("--email", required=True, help="Buyer email")
     parser.add_argument("--name", default="", help="Buyer name (optional)")
-    parser.add_argument("--plan", default="pro", choices=["pro", "beta", "team"])
-    parser.add_argument("--days", type=int, default=0, help="Validity in days; 0 = lifetime")
+    parser.add_argument(
+        "--plan",
+        default="standard",
+        choices=["standard", "deluxe", "premium", "pro", "beta", "team"],
+    )
+    parser.add_argument("--days", type=int, default=0, help="Validity in days; 0 = lifetime (pro/beta/team only)")
     parser.add_argument("--order", default="", help="Order / receipt reference")
     parser.add_argument("--out", default="", help="Write the key to this file")
     args = parser.parse_args()
@@ -52,6 +56,13 @@ def main() -> None:
     if not isinstance(private_key, ec.EllipticCurvePrivateKey):
         raise SystemExit("The private key is not an EC key.")
 
+    tier_days = {"standard": 30, "deluxe": 60, "premium": 90}
+    days = args.days or tier_days.get(args.plan, 0)
+    if args.plan in tier_days and days <= 0:
+        raise SystemExit(f"{args.plan} 이용권은 30/60/90일 기간이 필요합니다.")
+    if args.plan in tier_days and days != tier_days[args.plan]:
+        print(f"알림: {args.plan} 기본 기간은 {tier_days[args.plan]}일입니다. 입력한 {days}일로 발급합니다.")
+
     today = dt.date.today()
     payload: dict[str, Any] = {
         "v": 1,
@@ -59,7 +70,7 @@ def main() -> None:
         "email": args.email.strip().lower(),
         "name": args.name.strip(),
         "issued": today.isoformat(),
-        "exp": (today + dt.timedelta(days=args.days)).isoformat() if args.days else None,
+        "exp": (today + dt.timedelta(days=days)).isoformat() if days else None,
         "order": args.order.strip() or f"MH-{today.strftime('%y%m%d')}-{secrets.token_hex(3).upper()}",
     }
     key = issue(private_key, payload)

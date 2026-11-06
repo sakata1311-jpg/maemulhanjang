@@ -13,9 +13,9 @@
   <meta property="og:description" content="매물 사진과 정보만 넣으면 전단지·카드뉴스·문구가 1분 만에.">
   <meta property="og:image" content="https://sakata1311-jpg.github.io/maemulhanjang/assets/img/og.png">
   <link rel="preload" href="assets/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=20261105f">
-  <link rel="stylesheet" href="assets/css/app.css?v=20261105f">
-  <link rel="stylesheet" href="assets/css/slides.css?v=20261105f">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261107b">
+  <link rel="stylesheet" href="assets/css/app.css?v=20261107b">
+  <link rel="stylesheet" href="assets/css/slides.css?v=20261107b">
 </head>
 <body class="app-body" data-view="edit">
   <header class="app-header">
@@ -31,7 +31,7 @@
       <button class="icon-btn" type="button" id="helpBtn" aria-label="사용법 열기" title="사용법">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.3 1-1.3 2"/><circle cx="12" cy="17" r=".8" fill="currentColor" stroke="none"/></svg>
       </button>
-      <button class="pro-button" type="button" id="proBtn"><span class="pro-dot"></span><span id="proBtnLabel">Pro 업그레이드</span></button>
+      <button class="pro-button" type="button" id="proBtn"><span class="pro-dot"></span><span id="proBtnLabel">이용권 구매</span></button>
     </div>
   </header>
 
@@ -294,9 +294,9 @@
           </form>
 
           <div class="upsell-card" id="upsellCard">
-            <div class="upsell-top"><h3>Pro로 더 완성도 있게</h3><span class="badge badge--pro">PRO</span></div>
-            <p>전체 템플릿 6종 · A4 300dpi · 워터마크 제거 · 전체 ZIP 저장. 한 번 결제로 평생 사용합니다.</p>
-            <button class="btn btn-primary" type="button" id="upsellBtn">Pro 라이선스 보기 <span class="arrow">→</span></button>
+            <div class="upsell-top"><h3>이용권으로 더 완성도 있게</h3><span class="badge badge--pro">30·60·90일</span></div>
+            <p>전체 템플릿 6종 · A4 300dpi · 워터마크 제거 · 전체 ZIP 저장. 필요한 기간만큼 이용권을 선택하세요.</p>
+            <button class="btn btn-primary" type="button" id="upsellBtn">이용권 보기 <span class="arrow">→</span></button>
           </div>
 
           <div class="panel-foot">
@@ -325,9 +325,9 @@
             <button class="preview-tab is-active" type="button" data-preview="cover" role="tab" aria-selected="true">표지</button>
             <button class="preview-tab" type="button" data-preview="detail" role="tab" aria-selected="false">정보</button>
             <button class="preview-tab" type="button" data-preview="contact" role="tab" aria-selected="false">연락처</button>
-            <button class="preview-tab" type="button" data-preview="a4" role="tab" aria-selected="false">A4 <span class="tab-pro">PRO</span></button>
-            <button class="preview-tab" type="button" data-preview="square" role="tab" aria-selected="false">1:1 <span class="tab-pro">PRO</span></button>
-            <button class="preview-tab" type="button" data-preview="story" role="tab" aria-selected="false">스토리 <span class="tab-pro">PRO</span></button>
+            <button class="preview-tab" type="button" data-preview="a4" role="tab" aria-selected="false">A4 <span class="tab-pro">유료</span></button>
+            <button class="preview-tab" type="button" data-preview="square" role="tab" aria-selected="false">1:1 <span class="tab-pro">유료</span></button>
+            <button class="preview-tab" type="button" data-preview="story" role="tab" aria-selected="false">스토리 <span class="tab-pro">유료</span></button>
           </div>
           <div class="preview-actions">
             <button class="btn btn-dark" type="button" id="exportPng">
@@ -354,7 +354,7 @@
 
       <div class="preview-meta">
         <span id="previewMeta">1080 × 1350px · PNG</span>
-        <span class="lock-note is-hidden" id="lockNote">Pro 라이선스에서 저장할 수 있습니다.</span>
+        <span class="lock-note is-hidden" id="lockNote">유료 이용권에서 저장할 수 있습니다.</span>
       </div>
     </section>
   </main>
@@ -372,14 +372,24 @@
     </div>
   </div>
 
-  <!-- Pro modal -->
+  <!-- License modal -->
   <div class="modal" id="proModal" role="dialog" aria-modal="true" aria-labelledby="proTitle">
     <div class="modal-card">
       <button class="modal-close" type="button" data-close-modal aria-label="닫기">×</button>
-      <p class="modal-kicker">Pro 평생 라이선스</p>
-      <h2 id="proTitle">한 번 결제로,<br>계속 쓰는 매물 도구.</h2>
-      <p class="modal-lead">월 구독 없이 평생 사용합니다. 라이선스 키를 입력하면 이 브라우저에서 즉시 활성화됩니다.</p>
-      <div class="modal-price"><strong><span data-price="launch">29,000</span>원</strong><span>1회 결제 · 정가 <s data-price="regular">49,000</s>원</span></div>
+      <p class="modal-kicker">STANDARD · DELUXE · PREMIUM</p>
+      <h2 id="proTitle">필요한 기간만큼,<br>이용권으로.</h2>
+      <p class="modal-lead">30일부터 시작하는 기간형 이용권입니다. 라이선스 키를 입력하면 이 브라우저에서 즉시 활성화됩니다.</p>
+      <div class="plan-options">
+        <a class="plan-option" href="pricing.html#buy" data-plan="standard">
+          <span class="po-name">STANDARD</span><span class="po-days">30일</span><strong class="po-price">9,000원</strong>
+        </a>
+        <a class="plan-option is-recommended" href="pricing.html#buy" data-plan="deluxe">
+          <span class="po-name">DELUXE <span class="po-badge">추천</span></span><span class="po-days">60일</span><strong class="po-price">17,000원</strong>
+        </a>
+        <a class="plan-option" href="pricing.html#buy" data-plan="premium">
+          <span class="po-name">PREMIUM</span><span class="po-days">90일</span><strong class="po-price">24,000원</strong>
+        </a>
+      </div>
       <ul class="modal-features">
         <li>전체 템플릿 6종</li>
         <li>A4 전단지 300dpi</li>
@@ -387,14 +397,12 @@
         <li>1:1 · 스토리 규격</li>
         <li>사진 5장</li>
         <li>전체 ZIP 저장</li>
-        <li>브랜드 킷 저장</li>
-        <li>평생 사용</li>
       </ul>
-      <a class="btn btn-primary btn-block" href="pricing.html#buy" id="buyBtn">Pro 라이선스 구매하기 <span class="arrow">→</span></a>
+      <a class="btn btn-primary btn-block" href="pricing.html#buy" id="buyBtn">이용권 구매 페이지로 <span class="arrow">→</span></a>
 
       <div class="license-box">
-        <h3>이미 라이선스 키가 있나요?</h3>
-        <p>구매 후 받은 키를 입력하면 바로 Pro로 전환됩니다.</p>
+        <h3>이미 이용권 키가 있나요?</h3>
+        <p>구매 후 받은 키를 입력하면 선택한 기간만큼 활성화됩니다.</p>
         <div class="license-input-row">
           <input class="input" type="text" id="licenseInput" placeholder="MH1...." spellcheck="false" autocomplete="off">
           <button class="btn btn-dark" type="button" id="activateBtn">활성화</button>
@@ -404,8 +412,8 @@
           <span class="dot"></span>
           <span id="licenseCurrentText"></span>
         </div>
-        <button class="btn btn-ghost btn-block" type="button" id="deactivateBtn" hidden style="margin-top:8px">라이선스 해제</button>
-        <button class="btn btn-ghost btn-block" type="button" id="demoBtn" hidden style="margin-top:8px">데모 Pro로 체험하기 (로컬 전용)</button>
+        <button class="btn btn-ghost btn-block" type="button" id="deactivateBtn" hidden style="margin-top:8px">이용권 해제</button>
+        <button class="btn btn-ghost btn-block" type="button" id="demoBtn" hidden style="margin-top:8px">데모 이용권으로 체험하기 (로컬 전용)</button>
       </div>
       <p class="modal-note">결제·라이선스 문의: <a href="mailto:sakata1311@gmail.com" data-contact-email data-contact-text>sakata1311@gmail.com</a></p>
     </div>
@@ -434,15 +442,15 @@
     <div style="padding:40px;text-align:center;font-family:sans-serif">매물한장은 자바스크립트가 필요합니다. 브라우저에서 JavaScript를 켜 주세요.</div>
   </noscript>
 
-  <script src="assets/js/config.js?v=20261105f"></script>
-  <script src="assets/js/common.js?v=20261105f"></script>
-  <script src="assets/js/license-public.js?v=20261105f"></script>
-  <script src="assets/js/license.js?v=20261105f"></script>
-  <script src="assets/js/copy.js?v=20261105f"></script>
+  <script src="assets/js/config.js?v=20261107b"></script>
+  <script src="assets/js/common.js?v=20261107b"></script>
+  <script src="assets/js/license-public.js?v=20261107b"></script>
+  <script src="assets/js/license.js?v=20261107b"></script>
+  <script src="assets/js/copy.js?v=20261107b"></script>
   <script src="assets/js/vendor/qrcode.js"></script>
-  <script src="assets/js/templates.js?v=20261105f"></script>
+  <script src="assets/js/templates.js?v=20261107b"></script>
   <script src="assets/js/vendor/html-to-image.js"></script>
   <script src="assets/js/vendor/jszip.min.js"></script>
-  <script src="assets/js/studio.js?v=20261105f"></script>
+  <script src="assets/js/studio.js?v=20261107b"></script>
 </body>
 </html>

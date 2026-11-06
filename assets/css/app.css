@@ -1211,6 +1211,65 @@ body {
   line-height: 1.65;
 }
 
+.plan-options {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0 14px;
+}
+
+.plan-option {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 13px;
+  border: 1px solid var(--app-line);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--app-ink);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.plan-option:hover {
+  border-color: var(--app-ink);
+}
+
+.plan-option.is-recommended {
+  border-color: var(--app-accent);
+  background: #fff8f2;
+}
+
+.po-name {
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.03em;
+}
+
+.po-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--app-accent);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 850;
+  vertical-align: 1px;
+}
+
+.po-days {
+  color: var(--app-muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.po-price {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
 .modal-price {
   display: flex;
   align-items: baseline;

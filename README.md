@@ -5,7 +5,9 @@
 
 - 회원가입·설치·서버 업로드 없음
 - 매물 정보와 사진은 **IndexedDB / localStorage**에만 저장
-- Pro 라이선스는 **오프라인 전자서명 키**로 확인 (서버·PG 없이 판매 가능)
+- 유료 이용권은 **오프라인 전자서명 키**로 확인 (서버·PG 없이 판매 가능)
+- 유료 이용권은 **STANDARD 30일 / DELUXE 60일 / PREMIUM 90일**
+- Windows 프로그램(.exe)과 웹앱을 같은 키로 사용
 - 정적 HTML/CSS/JS만으로 동작 → GitHub Pages, Cloudflare Pages, Netlify에 그대로 배포
 
 ---
@@ -31,14 +33,14 @@ python scripts/serve.py
 - 가이드: `/guide.html`
 - 블로그: `/blog/index.html`
 
-> 로컬에서 Pro 기능을 시험하려면 `app.html`에서 **Pro 업그레이드 → 데모 Pro로 체험하기**를 누르거나
-> `app.html?demo=1`로 접속하세요. 데모 Pro는 `localhost`/`127.0.0.1`에서만 동작합니다.
+> 로컬에서 유료 기능을 시험하려면 `app.html`에서 **이용권 구매 → 데모 이용권으로 체험하기**를 누르세요.
+> 데모 이용권은 `localhost`/`127.0.0.1`에서만 동작하며, Windows 프로그램(`desktop=1`)에서는 비활성화됩니다.
 
 ---
 
 ## 2. 핵심 기능
 
-| 기능 | Free | Pro |
+| 기능 | Free | 유료 이용권 |
 |---|---|---|
 | 카드뉴스 4:5 | ✓ | ✓ |
 | 기본 템플릿 2종 | ✓ | ✓ |
@@ -48,13 +50,16 @@ python scripts/serve.py
 | 워터마크 | 포함 | 제거 |
 | 사진 | 3장 | 5장 |
 | 전체 ZIP | — | ✓ |
-| 사용 기간 | 무료 | 평생 |
+| Windows 프로그램 | — | ✓ |
+| 사용 기간 | 무료 | STANDARD 30일 · DELUXE 60일 · PREMIUM 90일 |
 
+- 이용권: STANDARD 30일 9,000원 · DELUXE 60일 17,000원 · PREMIUM 90일 24,000원 (모두 같은 기능, 기간만 다름)
+- 실행 형태: Windows 10/11 프로그램(.exe) + 웹앱. 같은 라이선스 키로 양쪽 사용
 - 템플릿: 시티 · 선셋 · 포레스트 · 모노 · 스카이 · 크림
 - 출력: 표지 · 정보 · 연락처 · A4 전단지 (A4는 JPG, 2480×3508px)
 - 문구: 표지 제목, 서브 문구, 인스타 캡션, 문자, 블로그 초안 자동 생성
 - QR: 중개사 정보의 `QR 링크`로 자동 생성
-- 저장: 자동 저장(브라우저), PNG/JPG 개별 저장, ZIP 일괄 저장, 인쇄/PDF
+- 저장: 자동 저장(브라우저/PC), JPG 개별 저장, ZIP 일괄 저장, A4 인쇄/PDF
 
 ---
 
@@ -95,7 +100,9 @@ python scripts/serve.py
 ├─ PLAN.md                  사업 기획·90일 로드맵
 ├─ OPERATIONS.md            운영 플레이북
 ├─ DEPLOY.md                배포·도메인·결제 설정
-├─ marketing/               인스타·커뮤니티·아웃리치 소재
+├─ marketing/               인스타·커뮤니티·크몽 등록 키트
+├─ desktop/                 Windows 프로그램 런처·아이콘·사용방법
+├─ scripts/                 빌드·라이선스·검사 스크립트
 ├─ secrets/                 ⚠️ 절대 커밋 금지 (gitignore)
 └─ assets/js/config.js      사이트 설정
 ```
@@ -111,10 +118,12 @@ window.MH_CONFIG = {
   brand: "매물한장",
   siteUrl: "https://maemulhanjang.com",
   contactEmail: "sakata1311@gmail.com",
-  checkoutUrl: "",              // Lemon Squeezy / Gumroad / Toss 결제 링크
-  launchPrice: 29000,
-  regularPrice: 49000,
-  launchEnds: "2026-12-31",
+  checkoutUrl: "",              // 크몽 상품 링크 (승인 후)
+  plans: [
+    { key: "standard", label: "STANDARD", days: 30, price: 9000 },
+    { key: "deluxe", label: "DELUXE", days: 60, price: 17000 },
+    { key: "premium", label: "PREMIUM", days: 90, price: 24000 },
+  ],
   analytics: { provider: "", domain: "maemulhanjang.com" },
 };
 ```
@@ -155,20 +164,32 @@ python scripts/gen_keys.py
 ### 고객 키 발급
 
 ```powershell
-python scripts/make_license.py --email buyer@example.com --name "홍길동" --plan pro --out licenses/hong.txt
+python scripts/make_license.py --email buyer@example.com --name "홍길동" --plan deluxe --out licenses/hong.txt
 ```
 
-- `--days 365`를 주면 1년 라이선스, 생략하면 평생.
-- 발급 후 이메일로 키를 전달하고, 고객은 앱 우측 상단 **Pro 업그레이드 → 라이선스 키 입력**에서 활성화합니다.
+- `--plan standard` → 30일, `--plan deluxe` → 60일, `--plan premium` → 90일 자동 설정.
+- `--days 45`처럼 직접 기간을 지정할 수도 있습니다. (plan 기본 기간과 다르면 안내 문구 출력)
+- 발급 후 이메일/크몽 메시지로 키를 전달하고, 고객은 앱 우측 상단 **이용권 구매 → 라이선스 키 입력**에서 활성화합니다.
 - `licenses/` 폴더는 `.gitignore`에 포함되어 있습니다. 고객 개인정보이므로 커밋하지 마세요.
 
-### 판매 흐름 (PG 없이 시작)
+### Windows 프로그램 빌드
 
-1. 고객이 가격 페이지에서 이메일 문의
-2. 입금/결제 확인
-3. `make_license.py`로 키 발급
-4. 이메일로 키 + 사용 안내 발송
-5. 필요 시 `licenses/발급기록.csv`에 기록
+```powershell
+python scripts/make_desktop_icon.py
+python scripts/make_guide_pdf.py
+python scripts/build_desktop.py
+```
+
+- 결과물: `dist/MaemulHanjang/`, `dist/매물한장_프로그램_Windows.zip`
+- `dist/`와 `build/`, `*.spec`은 커밋하지 않습니다.
+- 크몽에는 ZIP을 구매 후 메시지로 전달하고, 실행 파일 칸에는 `assets/guide/maemulhanjang-pro-guide.pdf`를 첨부합니다.
+
+### 판매 흐름 (크몽)
+
+1. 고객이 크몽 상품에서 이용권 결제
+2. 주문 확인 후 `make_license.py`로 키 발급
+3. 크몽 메시지로 프로그램 ZIP + 키 + 사용 안내 발송
+4. 필요 시 `licenses/발급기록.csv`에 기록
 
 결제 링크(Lemon Squeezy, Gumroad, Toss 등)가 준비되면 `checkoutUrl`만 채우면 됩니다.
 자세한 내용은 `DEPLOY.md` 참고.
@@ -241,8 +262,9 @@ python scripts/check_site.py
 
 - [ ] `index.html` 데스크톱/모바일 레이아웃
 - [ ] `app.html`에서 데모 매물 표시, 사진 3장, 템플릿 전환
-- [ ] Free: 워터마크 표시, Pro 템플릿 잠금, A4 저장 차단
-- [ ] Pro 데모: 워터마크 제거, A4 JPG 저장, ZIP 저장, 인쇄 창
+- [ ] Free: 워터마크 표시, 유료 템플릿 잠금, A4 저장 차단
+- [ ] 유료 이용권: 워터마크 제거, A4 JPG 저장, ZIP 저장, 인쇄 창
+- [ ] Windows 프로그램: 실행·라이선스 활성화·JPG/ZIP 저장
 - [ ] 사진 업로드 → 새로고침 후 유지(IndexedDB)
 - [ ] 라이선스 키 활성화/해제
 - [ ] `pricing.html` 가격 표시·구매 문의
@@ -255,7 +277,7 @@ python scripts/check_site.py
 
 - **결제 자동화 없음**: 기본은 이메일/수동 결제입니다. PG를 연결하려면 `checkoutUrl`과
   (선택) 라이선스 자동 발급을 별도로 구현해야 합니다.
-- **라이선스는 클라이언트 검증**: 코드를 변조하면 우회할 수 있습니다. 29,000원대 디지털 상품에서는
+- **라이선스는 클라이언트 검증**: 코드를 변조하면 우회할 수 있습니다. 9,000~24,000원대 디지털 상품에서는
   현실적인 절충안이지만, 고가 상품이 되면 서버 검증으로 옮기세요.
 - **브라우저 저장**: 시크릿 모드/브라우저 데이터 삭제 시 작업 내용이 사라집니다.
   완성한 이미지는 반드시 파일로 저장해야 합니다.

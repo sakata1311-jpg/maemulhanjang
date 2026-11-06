@@ -12,6 +12,11 @@ node_modules/
 .vscode/
 .idea/
 
+# --- desktop build output ---
+build/
+dist/
+*.spec
+
 # --- OS / logs ---
 .DS_Store
 Thumbs.db

@@ -4,7 +4,16 @@
 
   const STORE_KEY = "mh_license_key";
   const STORE_DEMO = "mh_demo_mode";
-  const PRO_PLANS = new Set(["pro", "beta", "team"]);
+  const PRO_PLANS = new Set(["pro", "beta", "team", "standard", "deluxe", "premium"]);
+  const TIER_DAYS = { standard: 30, deluxe: 60, premium: 90 };
+  const PLAN_NAMES = {
+    standard: "STANDARD",
+    deluxe: "DELUXE",
+    premium: "PREMIUM",
+    pro: "PRO",
+    beta: "BETA",
+    team: "TEAM",
+  };
 
   const state = {
     status: "free",
@@ -18,9 +27,11 @@
     reason: "",
   };
 
+  const desktopMode = new URLSearchParams(window.location.search).get("desktop") === "1";
   const isLocalHost = () =>
-    ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) ||
-    window.location.protocol === "file:";
+    !desktopMode &&
+    (["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) ||
+      window.location.protocol === "file:");
 
   function b64urlToBytes(value) {
     const normalized = String(value).replace(/-/g, "+").replace(/_/g, "/");
@@ -109,11 +120,14 @@
     if (!ok) throw new Error("라이선스 서명이 유효하지 않습니다.");
     const payload = JSON.parse(new TextDecoder().decode(payloadBytes));
     if (payload.v !== 1) throw new Error("지원하지 않는 라이선스 버전입니다.");
-    if (!PRO_PLANS.has(payload.plan)) throw new Error("Pro 라이선스가 아닙니다.");
+    if (!PRO_PLANS.has(payload.plan)) throw new Error("유료 이용권이 아닙니다.");
+    if (TIER_DAYS[payload.plan] && !payload.exp) {
+      throw new Error("이용권 기간 정보가 없습니다.");
+    }
     if (payload.exp) {
       const end = new Date(payload.exp + "T23:59:59");
       if (Number.isNaN(end.getTime()) || end.getTime() < Date.now()) {
-        throw new Error("라이선스 기간이 만료되었습니다.");
+        throw new Error("이용권 기간이 만료되었습니다. 새 이용권을 구매해 주세요.");
       }
     }
     return payload;
@@ -155,7 +169,7 @@
       state.status = "pro";
       state.plan = "pro";
       state.email = "demo@maemulhanjang.com";
-      state.name = "데모 Pro";
+      state.name = "데모 이용권";
       state.exp = null;
       state.key = "DEMO";
       state.demo = true;
@@ -200,7 +214,7 @@
         state.status = "pro";
         state.plan = "pro";
         state.email = "demo@maemulhanjang.com";
-        state.name = "데모 Pro";
+        state.name = "데모 이용권";
         state.key = "DEMO";
         state.demo = true;
         apply();
@@ -228,5 +242,7 @@
     isPro: () => state.status === "pro",
     getState: () => ({ ...state }),
     isLocalHost,
+    planName: (plan) => PLAN_NAMES[plan] || String(plan || "PRO").toUpperCase(),
+    tierDays: (plan) => TIER_DAYS[plan] || null,
   };
 })();

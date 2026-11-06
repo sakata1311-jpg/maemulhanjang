@@ -62,16 +62,16 @@ def header(c: canvas.Canvas, page_no: int, title: str) -> None:
 
 
 def page_1(c: canvas.Canvas) -> None:
-    header(c, 1, "Pro 사용 가이드")
+    header(c, 1, "사용 가이드")
     c.setFillColorRGB(*NAVY)
     c.setFont("MalgunBd", 30)
-    c.drawString(48, H - 180, "매물한장 Pro")
+    c.drawString(48, H - 180, "매물한장")
     c.setFillColorRGB(*ORANGE)
-    c.drawString(48, H - 218, "사용 가이드")
+    c.drawString(48, H - 218, "Windows 프로그램 가이드")
     c.setFillColorRGB(*MUTED)
     wrap(
         c,
-        "매물 정보와 사진만 넣으면 인스타 카드뉴스, A4 전단지, 문자·블로그 문구가 자동으로 구성됩니다.",
+        "매물 정보와 사진만 넣으면 인스타 카드뉴스, A4 전단지, 문자·블로그 문구가 자동으로 구성됩니다. 설치 후 인터넷 연결 없이 사용할 수 있습니다.",
         48,
         H - 260,
         W - 96,
@@ -79,26 +79,26 @@ def page_1(c: canvas.Canvas) -> None:
         20,
     )
     c.setFillColorRGB(*CREAM)
-    c.roundRect(48, H - 430, W - 96, 130, 10, fill=1, stroke=0)
+    c.roundRect(48, H - 440, W - 96, 140, 10, fill=1, stroke=0)
     c.setFillColorRGB(*NAVY)
     c.setFont("MalgunBd", 13)
-    c.drawString(66, H - 350, "시작 전에 확인하세요")
+    c.drawString(66, H - 358, "시작 전에 확인하세요")
     c.setFont("Malgun", 10)
     c.setFillColorRGB(*MUTED)
-    c.drawString(66, H - 372, "1. 크몽 메시지로 받은 앱 주소와 라이선스 키를 확인합니다.")
-    c.drawString(66, H - 390, "2. Chrome 또는 Edge 최신 버전을 사용합니다.")
-    c.drawString(66, H - 408, "3. 매물 정보와 사진은 브라우저에만 저장됩니다.")
+    c.drawString(66, H - 380, "1. 받은 ZIP 파일의 압축을 풀고 MaemulHanjang.exe를 실행합니다.")
+    c.drawString(66, H - 398, "2. SmartScreen이 뜨면 ‘추가 정보 → 실행’을 누릅니다.")
+    c.drawString(66, H - 416, "3. 크몽 메시지로 받은 라이선스 키를 입력합니다.")
     c.setFont("MalgunBd", 12)
     c.setFillColorRGB(*NAVY)
-    c.drawString(48, H - 480, "이 가이드의 순서")
+    c.drawString(48, H - 490, "이 가이드의 순서")
     items = [
-        "1. 앱 접속과 라이선스 활성화",
+        "1. 프로그램 실행과 라이선스 활성화",
         "2. 매물 정보 입력",
         "3. 템플릿 선택과 저장",
         "4. A4 전단지 인쇄",
         "5. 자주 묻는 질문",
     ]
-    y = H - 508
+    y = H - 518
     for item in items:
         c.setFont("Malgun", 11)
         c.setFillColorRGB(*MUTED)
@@ -106,7 +106,7 @@ def page_1(c: canvas.Canvas) -> None:
         y -= 22
     c.setFillColorRGB(*MUTED)
     c.setFont("Malgun", 8)
-    c.drawString(48, 42, "본 가이드는 구매자용입니다. 앱 주소와 라이선스 키는 크몽 메시지로 별도 안내됩니다.")
+    c.drawString(48, 42, "본 가이드는 구매자용입니다. 라이선스 키는 크몽 메시지로 별도 안내됩니다.")
     c.showPage()
 
 
@@ -114,14 +114,25 @@ def page_2(c: canvas.Canvas) -> None:
     header(c, 2, "라이선스 활성화")
     c.setFillColorRGB(*NAVY)
     c.setFont("MalgunBd", 20)
-    c.drawString(48, H - 150, "Pro 라이선스 활성화")
+    c.drawString(48, H - 150, "이용권 활성화")
+    c.setFont("Malgun", 10)
+    c.setFillColorRGB(*MUTED)
+    wrap(
+        c,
+        "이용권은 STANDARD 30일, DELUXE 60일, PREMIUM 90일입니다. 모든 이용권은 같은 기능을 사용하며 기간만 다릅니다.",
+        48,
+        H - 178,
+        W - 96,
+        10,
+        16,
+    )
     steps = [
-        ("01", "앱에 접속합니다", "크몽 메시지로 받은 앱 주소를 Chrome/Edge에서 엽니다."),
-        ("02", "Pro 업그레이드를 누릅니다", "오른쪽 위의 ‘Pro 업그레이드’ 버튼을 클릭합니다."),
+        ("01", "프로그램을 실행합니다", "ZIP 압축을 푼 뒤 MaemulHanjang.exe를 더블클릭합니다."),
+        ("02", "‘이용권 구매’를 누릅니다", "오른쪽 위의 ‘이용권 구매’ 버튼을 클릭합니다."),
         ("03", "라이선스 키를 입력합니다", "크몽 메시지로 받은 키를 붙여넣고 ‘활성화’를 누릅니다."),
-        ("04", "PRO 사용 중을 확인합니다", "워터마크가 사라지고 Pro 템플릿이 열리면 완료입니다."),
+        ("04", "이용 기간을 확인합니다", "오른쪽 위에 ‘STANDARD 사용 중’처럼 표시되면 완료입니다."),
     ]
-    y = H - 205
+    y = H - 245
     for num, title, desc in steps:
         c.setFillColorRGB(*ORANGE)
         c.setFont("MalgunBd", 12)
@@ -135,14 +146,15 @@ def page_2(c: canvas.Canvas) -> None:
         y = wrap(c, desc, 84, y, W - 132, 10, 16)
         y -= 18
     c.setFillColorRGB(*CREAM)
-    c.roundRect(48, 120, W - 96, 100, 10, fill=1, stroke=0)
+    c.roundRect(48, 120, W - 96, 120, 10, fill=1, stroke=0)
     c.setFillColorRGB(*NAVY)
     c.setFont("MalgunBd", 11)
-    c.drawString(66, 190, "키를 잃어버렸거나 활성화가 안 되나요?")
+    c.drawString(66, 210, "이용 기간이 끝나면 어떻게 되나요?")
     c.setFont("Malgun", 9)
     c.setFillColorRGB(*MUTED)
-    c.drawString(66, 170, "크몽 메시지로 구매 이메일과 오류 화면을 보내주세요.")
-    c.drawString(66, 154, "확인 후 재발급 또는 해결 방법을 안내드립니다.")
+    c.drawString(66, 190, "무료 모드로 돌아갑니다. 새 이용권 키를 입력하면 다시 활성화됩니다.")
+    c.drawString(66, 168, "키를 잃어버렸거나 활성화가 안 되면 크몽 메시지로 알려주세요.")
+    c.drawString(66, 150, "구매 기록을 확인한 뒤 재발급 또는 해결 방법을 안내드립니다.")
     c.showPage()
 
 
@@ -156,7 +168,8 @@ def page_3(c: canvas.Canvas) -> None:
         "주소는 동 단위까지만 입력하는 것을 권장합니다.",
         "첫 번째 사진이 표지, 두 번째·세 번째 사진이 상세 사진으로 사용됩니다.",
         "강조 포인트를 선택하면 카드와 문구가 더 구체적으로 바뀝니다.",
-        "표지·정보·연락처 카드를 PNG로 저장하거나 A4 전단지로 인쇄합니다.",
+        "표지·정보·연락처 카드를 JPG로 저장하거나 A4 전단지로 인쇄합니다.",
+        "저장한 파일은 기본적으로 PC의 ‘다운로드’ 폴더에 저장됩니다.",
     ]
     y = H - 190
     for b in bullets:
@@ -187,7 +200,7 @@ def page_4(c: canvas.Canvas) -> None:
     c.setFont("Malgun", 10)
     wrap(
         c,
-        "A4 탭에서 ‘인쇄/PDF’를 누르면 300dpi JPG가 준비됩니다. 인쇄 창에서 용지 A4, 배율 100%, 여백 없음, 배경 그래픽 켜기를 선택하세요. 대량 인쇄는 JPG 파일을 인쇄소에 전달하는 것이 안정적입니다.",
+        "A4 탭에서 ‘인쇄/PDF’를 누르면 300dpi JPG가 다운로드 폴더에 저장되고 폴더가 열립니다. 파일을 열어 A4, 배율 100%, 여백 없음으로 인쇄하세요. 대량 인쇄는 JPG 파일을 인쇄소에 전달하는 것이 안정적입니다.",
         48,
         H - 180,
         W - 96,
@@ -198,10 +211,10 @@ def page_4(c: canvas.Canvas) -> None:
     c.setFont("MalgunBd", 14)
     c.drawString(48, H - 310, "자주 묻는 질문")
     faqs = [
-        ("설치가 필요한가요?", "아니요. 브라우저에서 바로 사용합니다."),
-        ("매물 정보는 어디에 저장되나요?", "앱을 연 브라우저에만 저장됩니다. 서버로 전송되지 않습니다."),
-        ("다른 기기에서도 쓸 수 있나요?", "같은 라이선스 키를 새 브라우저에 입력하면 됩니다. 작업 내용은 기기별로 새로 입력해야 합니다."),
-        ("사진이 서버에 올라가나요?", "아니요. 사진은 브라우저에서 압축·저장됩니다."),
+        ("설치가 필요한가요?", "ZIP 압축을 풀고 exe를 실행하면 됩니다. 별도 설치 프로그램은 없습니다."),
+        ("인터넷이 없어도 되나요?", "네. 프로그램은 인터넷 연결 없이 실행됩니다. 웹앱은 인터넷이 필요합니다."),
+        ("매물 정보는 어디에 저장되나요?", "PC와 브라우저에만 저장됩니다. 서버로 전송되지 않습니다."),
+        ("다른 기기에서도 쓸 수 있나요?", "같은 이용권 키를 새 기기에 입력하면 됩니다. 작업 내용은 기기별로 새로 입력해야 합니다."),
         ("환불은 어떻게 하나요?", "디지털 상품 특성상 키 발급 후 제한됩니다. 자세한 기준은 크몽 상품 페이지를 확인해 주세요."),
     ]
     y = H - 340
@@ -227,7 +240,7 @@ def page_4(c: canvas.Canvas) -> None:
 
 def main() -> None:
     c = canvas.Canvas(str(OUT), pagesize=A4)
-    c.setTitle("매물한장 Pro 사용 가이드")
+    c.setTitle("매물한장 사용 가이드")
     c.setAuthor("매물한장")
     page_1(c)
     page_2(c)

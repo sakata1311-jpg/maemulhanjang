@@ -255,7 +255,7 @@ POSTS = [
 <p>전단지에는 QR을 넣어 온라인 매물 페이지로 연결할 수 있습니다. QR은 최소 2×2cm 이상, 주변에 충분한 흰 여백을 두세요. 인쇄 후 실제 휴대폰으로 스캔해 모바일 페이지가 열리는지 확인합니다.</p>
 <p>창문 부착용이라면 가격과 연락처를 멀리서도 읽을 수 있게 크게. 우편함·배포용이라면 QR과 짧은 혜택 문구를 추가하세요.</p>
 
-<div class="callout"><strong>A4 전단지 만들기</strong>매물 정보와 사진을 넣고 A4 탭에서 인쇄/PDF를 누르면 300dpi 전단지가 준비됩니다. Pro 라이선스에서 사용할 수 있습니다. <a href="../pricing.html">Pro 안내 보기 →</a></div>
+<div class="callout"><strong>A4 전단지 만들기</strong>매물 정보와 사진을 넣고 A4 탭에서 인쇄/PDF를 누르면 300dpi 전단지가 준비됩니다. 유료 이용권에서 사용할 수 있습니다. <a href="../pricing.html">이용권 안내 보기 →</a></div>
 
 <h2 id="checklist">인쇄 전 체크리스트</h2>
 <ul class="checklist">
