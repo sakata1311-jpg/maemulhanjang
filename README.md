@@ -182,7 +182,8 @@ python scripts/build_desktop.py
 
 - 결과물: `dist/MaemulHanjang/`, `dist/매물한장_프로그램_Windows.zip`
 - `dist/`와 `build/`, `*.spec`은 커밋하지 않습니다.
-- 크몽에는 ZIP을 구매 후 메시지로 전달하고, 실행 파일 칸에는 `assets/guide/maemulhanjang-pro-guide.pdf`를 첨부합니다.
+- 크몽 실행 파일 칸에는 `dist/매물한장_프로그램_Windows.zip`을 첨부하고, 가이드 PDF도 함께 올립니다.
+  - 실행 파일 칸이 exe만 허용하면 ZIP은 구매 후 크몽 메시지로 전달합니다.
 
 ### 판매 흐름 (크몽)
 
