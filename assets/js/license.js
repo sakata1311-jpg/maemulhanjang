@@ -133,12 +133,19 @@
     return payload;
   }
 
+  function isActive() {
+    if (state.status !== "pro") return false;
+    if (!state.exp) return true;
+    const end = new Date(state.exp + "T23:59:59");
+    return !Number.isNaN(end.getTime()) && end.getTime() >= Date.now();
+  }
+
   function apply() {
-    document.body.classList.toggle("is-pro", state.status === "pro");
+    document.body.classList.toggle("is-pro", isActive());
     document.dispatchEvent(
       new CustomEvent("mh:license", {
         detail: {
-          isPro: state.status === "pro",
+          isPro: isActive(),
           plan: state.plan,
           email: state.email,
           name: state.name,
@@ -239,7 +246,7 @@
     activate,
     deactivate,
     verifyToken,
-    isPro: () => state.status === "pro",
+    isPro: () => isActive(),
     getState: () => ({ ...state }),
     isLocalHost,
     planName: (plan) => PLAN_NAMES[plan] || String(plan || "PRO").toUpperCase(),

@@ -4,7 +4,7 @@ import pathlib
 import re
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-VERSION = "20261107b"
+VERSION = "20261107c"
 ASSETS = [
     "assets/css/site.css",
     "assets/css/app.css",
