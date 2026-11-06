@@ -2,7 +2,7 @@
 window.MH_CONFIG = {
   brand: "매물한장",
   siteUrl: "https://sakata1311-jpg.github.io/maemulhanjang",
-  contactEmail: "hello@maemulhanjang.com",
+  contactEmail: "sakata1311@gmail.com",
   // Set this to your Lemon Squeezy / Gumroad / Toss checkout URL when ready.
   checkoutUrl: "",
   // Optional: a Lemon Squeezy license validation endpoint, if you prefer server-side keys.

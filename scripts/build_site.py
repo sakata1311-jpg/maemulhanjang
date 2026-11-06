@@ -78,7 +78,7 @@ def footer() -> str:
         </div>
         <div class="footer-col"><h4>제품</h4><a href="../app.html">매물 만들기</a><a href="../templates.html">템플릿</a><a href="../pricing.html">요금</a><a href="../guide.html">사용법</a></div>
         <div class="footer-col"><h4>자료</h4><a href="../blog/index.html">블로그</a><a href="../blog/realtor-instagram-cardnews.html">인스타 카드뉴스 가이드</a><a href="../blog/flyer-required-disclosures.html">광고 표기 체크리스트</a></div>
-        <div class="footer-col"><h4>문의</h4><a href="mailto:hello@maemulhanjang.com" data-contact-email data-contact-text>hello@maemulhanjang.com</a><a href="../legal/terms.html">이용약관</a><a href="../legal/privacy.html">개인정보처리방침</a></div>
+        <div class="footer-col"><h4>문의</h4><a href="mailto:sakata1311@gmail.com" data-contact-email data-contact-text>sakata1311@gmail.com</a><a href="../legal/terms.html">이용약관</a><a href="../legal/privacy.html">개인정보처리방침</a></div>
       </div>
       <div class="footer-bottom">
         <p>© <span data-year>2026</span> 매물한장. All rights reserved. 매물한장은 공인중개사의 광고물 제작을 돕는 도구이며, 광고 내용의 정확성과 법적 표기 의무는 사용자에게 있습니다.</p>

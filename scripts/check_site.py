@@ -108,8 +108,13 @@ def main() -> int:
                 warnings.append(f"{rel}: image without alt -> {src}")
 
     sitemap = (BASE / "sitemap.xml").read_text(encoding="utf-8")
+    config = (BASE / "assets" / "js" / "config.js").read_text(encoding="utf-8")
+    site_match = re.search(r'siteUrl:\s*"([^"]+)"', config)
+    site_prefix = urlparse(site_match.group(1)).path.rstrip("/") if site_match else ""
     for loc in re.findall(r"<loc>(.*?)</loc>", sitemap):
         path = urlparse(loc).path
+        if site_prefix and path.startswith(site_prefix):
+            path = path[len(site_prefix):] or "/"
         if path == "/":
             target = BASE / "index.html"
         elif path.endswith("/"):

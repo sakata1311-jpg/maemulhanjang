@@ -28,14 +28,14 @@ python scripts/set_site_url.py "https://아이디.github.io/저장소" --email "
 
 ### (2) 이메일 수신 설정
 
-사이트에는 `hello@maemulhanjang.com`이 기본으로 들어가 있습니다.
+사이트에는 `sakata1311@gmail.com`이 기본으로 들어가 있습니다.
 **도메인 메일을 만들지 않았다면 반드시 실제 이메일로 바꾸세요.**
 
 옵션:
 
 - **Gmail/Naver 메일**: `set_site_url.py --email 내주소@gmail.com`
 - **도메인 메일**: Cloudflare Email Routing(무료 포워딩) 또는 Zoho Mail(무료 플랜)
-  - 예: `hello@maemulhanjang.com` → 개인 Gmail로 포워딩
+  - 예: `sakata1311@gmail.com` → 개인 Gmail로 포워딩
 - 발송 테스트 필수: 사이트의 구매 문의 버튼으로 메일을 보내 본다.
 
 ### (3) 결제 수단
@@ -168,7 +168,7 @@ git push
 ### 5-4. 배포 후
 
 ```powershell
-python scripts/set_site_url.py "https://maemulhanjang.com" --email "hello@maemulhanjang.com"
+python scripts/set_site_url.py "https://maemulhanjang.com" --email "sakata1311@gmail.com"
 ```
 
 DNS 전파는 최대 24시간. HTTPS 인증서 발급까지 기다립니다.
@@ -181,7 +181,7 @@ DNS 전파는 최대 24시간. HTTPS 인증서 발급까지 기다립니다.
 
 1. 도메인을 Cloudflare에 연결
 2. **Email → Email Routing → Enable**
-3. Custom address: `hello@maemulhanjang.com` → Forward to: 개인 Gmail
+3. Custom address: `sakata1311@gmail.com` → Forward to: 개인 Gmail
 4. Gmail에서 수신 확인 → 필요 시 “Send mail as” 설정
 
 ### Zoho Mail (무료 플랜)

@@ -110,7 +110,7 @@ python scripts/serve.py
 window.MH_CONFIG = {
   brand: "매물한장",
   siteUrl: "https://maemulhanjang.com",
-  contactEmail: "hello@maemulhanjang.com",
+  contactEmail: "sakata1311@gmail.com",
   checkoutUrl: "",              // Lemon Squeezy / Gumroad / Toss 결제 링크
   launchPrice: 29000,
   regularPrice: 49000,

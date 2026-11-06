@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Add a cache-busting version query to local CSS/JS references."""
 import pathlib
 import re
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-VERSION = "20261105e"
+VERSION = "20261105f"
 ASSETS = [
     "assets/css/site.css",
     "assets/css/app.css",
@@ -37,3 +37,4 @@ for path in BASE.rglob("*.html"):
 print("updated", len(changed), "files")
 for item in changed:
     print("  -", item)
+

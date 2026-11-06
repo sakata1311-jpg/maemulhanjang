@@ -3,7 +3,7 @@
 
 Usage:
   python scripts/set_site_url.py https://myid.github.io/maemulhanjang
-  python scripts/set_site_url.py https://maemulhanjang.com --email hello@maemulhanjang.com
+  python scripts/set_site_url.py https://maemulhanjang.com --email sakata1311@gmail.com
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
 OLD_URL = "https://maemulhanjang.com"
-OLD_EMAIL = "hello@maemulhanjang.com"
+OLD_EMAIL = "sakata1311@gmail.com"
 TARGETS = [
     *BASE.glob("*.html"),
     *BASE.glob("blog/*.html"),
